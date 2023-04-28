@@ -2,33 +2,56 @@
 #include "Keyboard.h"
 #include "keymap.h"
 
-const int buttonPin = PA0;          // input pin for pushbutton
+int keyPressed[5][16];
 
-int previousButtonState = HIGH;   // for checking the state of a pushButton
-
-void setup() {
-  // make the pushButton pin an input:
-  pinMode(buttonPin, INPUT_PULLUP);
-  // initialize control over the keyboard:
+void setup()
+{
   Keyboard.begin();
+
+  for (int i = 0; i < ROWS; i++)
+  {
+    pinMode(rowPins[i], INPUT_PULLDOWN);
+  }
+  for (int i = 0; i < COLUMNS; i++)
+  {
+    pinMode(columnPins[i], OUTPUT);
+    digitalWrite(columnPins[i], LOW);
+  }
 }
 
-void loop() {
-  // read the pushbutton:
-  int buttonState = digitalRead(buttonPin);
-  // if the button state has changed,
-  if ((buttonState != previousButtonState)
-      // and it's currently pressed:
-      && (buttonState == LOW)) {
-        Keyboard.press('\n');
+void loop()
+{
+  for (int i = 0; i < COLUMNS; i++)
+  {
 
-  }
-  if ((buttonState != previousButtonState)
-      // and it's currently pressed:
-      && (buttonState == HIGH)) {
-        Keyboard.release('\n');
+    digitalWrite(columnPins[i], HIGH);
 
+    int rowValues[ROWS];
+    for (int j = 0; j < ROWS; j++)
+    {
+      rowValues[j] = digitalRead(rowPins[j]);
+    }
+
+    for (int j = 0; j < ROWS; j++)
+    {
+      if (rowValues[j] == 1 && !keyPressed[j][i])
+      {
+        keyPressed[j][i] = true;
+        Keyboard.press(layer1[j][i]);
+        // TODO: handle FN key layer 2
+      }
+    }
+
+    for (int j = 0; j < ROWS; j++)
+    {
+      if (rowValues[j] == 0 && keyPressed[j][i])
+      {
+        keyPressed[j][i] = false;
+        Keyboard.release(layer1[j][i]);
+        // TODO: handle FN key layer 2
+      }
+    }
+
+    digitalWrite(columnPins[i], LOW);
   }
-  // save the current button state for comparison next time:
-  previousButtonState = buttonState;
 }
