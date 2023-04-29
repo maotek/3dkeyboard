@@ -1,6 +1,6 @@
 #include "Keyboard.h"
 
-#define KEY_FN 255
+#define KEY_FN 0
 #define KEY_PRTSCRN 0x46 + 136
 #define ROWS 5
 #define COLUMNS 16
@@ -13,7 +13,7 @@ char layer1[5][16] = {
     {KEY_TAB, 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', KEY_DELETE, KEY_END},
     {KEY_CAPS_LOCK, 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 0, '\n', KEY_PRTSCRN, KEY_PAGE_UP},
     {KEY_LEFT_SHIFT, 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 0, 0, KEY_RIGHT_SHIFT, KEY_UP_ARROW, KEY_PAGE_DOWN},
-    {KEY_LEFT_CTRL, KEY_LEFT_GUI, KEY_LEFT_ALT, 0, 0, ' ', 0, 0, KEY_RIGHT_ALT, KEY_FN, KEY_RIGHT_CTRL, 0, 0, KEY_LEFT_ARROW, KEY_DOWN_ARROW, KEY_RIGHT_ARROW}};
+    {KEY_LEFT_CTRL, KEY_LEFT_GUI, KEY_LEFT_ALT, 0, 0, ' ', 0, 0, 0, KEY_RIGHT_ALT, KEY_FN, KEY_RIGHT_CTRL, 0, KEY_LEFT_ARROW, KEY_DOWN_ARROW, KEY_RIGHT_ARROW}};
 
 char layer2[5][16] = {
     {'`', KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12},

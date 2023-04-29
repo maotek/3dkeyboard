@@ -7,6 +7,7 @@ int keyPressed[5][16];
 void setup()
 {
   Keyboard.begin();
+  pinMode(PC13, OUTPUT);
 
   for (int i = 0; i < ROWS; i++)
   {
@@ -37,8 +38,19 @@ void loop()
       if (rowValues[j] == 1 && !keyPressed[j][i])
       {
         keyPressed[j][i] = true;
-        Keyboard.press(layer1[j][i]);
-        // TODO: handle FN key layer 2
+        digitalWrite(PC13, HIGH);
+
+        if (j == 4 && i == 10)
+          continue;
+
+        if (keyPressed[4][10] && j == 0 && i <= 12) // fnKey
+        {
+          Keyboard.press(layer2[j][i]);
+        }
+        else
+        {
+          Keyboard.press(layer1[j][i]);
+        }
       }
     }
 
@@ -47,8 +59,19 @@ void loop()
       if (rowValues[j] == 0 && keyPressed[j][i])
       {
         keyPressed[j][i] = false;
-        Keyboard.release(layer1[j][i]);
-        // TODO: handle FN key layer 2
+        digitalWrite(PC13, LOW);
+
+        if (j == 4 && i == 10)
+          continue;
+
+        if (keyPressed[4][10] && j == 0 && i <= 12) // fnKey
+        {
+          Keyboard.release(layer2[j][i]);
+        }
+        else
+        {
+          Keyboard.release(layer1[j][i]);
+        }
       }
     }
 
